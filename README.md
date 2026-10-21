@@ -24,6 +24,18 @@ loop**, and returns `verified` plus any outputs the workflow declares.
 
 **Core loop:** Explore → Verify → Compile → Replay-verify → Publish → Use → (Improve)
 
+## Demo: Agentify vs native computer use
+
+Same model (Opus 5.5 Medium in Claude Desktop) and same prompt on both sides: open Unitra, a
+desktop translation app, and translate a Japanese sentence into English. Round 1 includes
+Agentify's one-time learning; round 2 repeats the task with the learned MCP tool.
+
+![Measured results: mean of 3 runs, learning cost included](docs/images/results.png)
+
+<sub>Mean of 3 runs. Time is time spent operating the app; tokens include the Explorer sub-agent.</sub>
+
+![Round 2: native computer use 23.4 s vs Agentify 13.4 s, one MCP tool call](docs/images/round2-repeat.png)
+
 ## Why
 
 Computer-use agents re-plan every task from screenshots, every time. Agentify pays the
