@@ -1,0 +1,22 @@
+{
+ "exit": 0,
+ "stderr": null,
+ "stdout": {
+  "found": true,
+  "waitedMs": 49,
+  "element": {
+   "type": "Text",
+   "name": "Current colour: Blue",
+   "automationId": "StatusLabel",
+   "isEnabled": true,
+   "isOffscreen": false,
+   "x": 0,
+   "y": 0,
+   "width": 10,
+   "height": 10,
+   "selector": "lbl-statuslabel-4b69",
+   "isInvokable": false
+  },
+  "timedOut": false
+ }
+}

@@ -1,0 +1,11 @@
+{
+ "exit": 1,
+ "stdout": null,
+ "stderr": {
+  "error": {
+   "code": "internal_error",
+   "message": "Element cmb-colourcombo-4d35 (ComboBox) does not support ExpandCollapsePattern. No other pattern or ancestor was tried.",
+   "details": "InvalidOperationException"
+  }
+ }
+}

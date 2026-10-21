@@ -1,0 +1,22 @@
+{
+ "exit": 0,
+ "stderr": null,
+ "stdout": {
+  "matchCount": 1,
+  "hasMore": false,
+  "matches": [
+   {
+    "type": "ListItem",
+    "name": "Blue",
+    "isEnabled": true,
+    "isOffscreen": false,
+    "x": 0,
+    "y": 0,
+    "width": 10,
+    "height": 10,
+    "selector": "itm-blue-8123",
+    "isInvokable": true
+   }
+  ]
+ }
+}

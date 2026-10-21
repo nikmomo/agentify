@@ -1,0 +1,11 @@
+{
+ "exit": 1,
+ "stdout": null,
+ "stderr": {
+  "error": {
+   "code": "internal_error",
+   "message": "Window HWND 123 not found or not accessible.",
+   "details": "AppNotFoundException"
+  }
+ }
+}

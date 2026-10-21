@@ -1,0 +1,14 @@
+{
+ "exit": 0,
+ "stderr": null,
+ "stdout": {
+  "processId": 10328,
+  "processName": "powershell",
+  "windowTitle": "Agentify Fixture vA",
+  "hwnd": 394880,
+  "windowDpi": 96,
+  "scale": 1,
+  "dpiAwareness": "unaware",
+  "coordinateSpace": "physical-screen-pixels"
+ }
+}

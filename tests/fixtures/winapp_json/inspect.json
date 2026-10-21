@@ -1,0 +1,146 @@
+{
+ "exit": 0,
+ "stderr": null,
+ "stdout": {
+  "depth": 6,
+  "interactive": false,
+  "windows": [
+   {
+    "hwnd": 394880,
+    "title": "Agentify Fixture vA",
+    "windowDpi": 96,
+    "scale": 1,
+    "dpiAwareness": "unaware",
+    "coordinateSpace": "physical-screen-pixels",
+    "elementCount": 15,
+    "elements": [
+     {
+      "type": "Window",
+      "name": "Agentify Fixture vA",
+      "isEnabled": true,
+      "isOffscreen": false,
+      "x": 645,
+      "y": 345,
+      "width": 630,
+      "height": 390,
+      "selector": "win-agentifyfixture-4b67",
+      "isInvokable": false,
+      "children": [
+       {
+        "type": "Text",
+        "name": "Notes",
+        "automationId": "788468",
+        "isEnabled": true,
+        "isOffscreen": false,
+        "x": 687,
+        "y": 422,
+        "width": 51,
+        "height": 26,
+        "selector": "788468",
+        "isInvokable": false
+       },
+       {
+        "type": "Edit",
+        "name": "Notes",
+        "automationId": "NotesBox",
+        "isEnabled": true,
+        "isOffscreen": false,
+        "x": 837,
+        "y": 419,
+        "width": 360,
+        "height": 30,
+        "selector": "NotesBox",
+        "isInvokable": false
+       },
+       {
+        "type": "ComboBox",
+        "name": "Colour",
+        "automationId": "ColourCombo",
+        "isEnabled": true,
+        "isOffscreen": false,
+        "x": 837,
+        "y": 479,
+        "width": 240,
+        "height": 32,
+        "selector": "ColourCombo",
+        "value": "Red",
+        "isInvokable": false,
+        "children": [
+         {
+          "type": "Text",
+          "name": "Colour",
+          "isEnabled": true,
+          "isOffscreen": true,
+          "x": 0,
+          "y": 0,
+          "width": 10,
+          "height": 10,
+          "selector": "lbl-colour-0011",
+          "value": "Red",
+          "isInvokable": false
+         },
+         {
+          "type": "Button",
+          "name": "Open",
+          "isEnabled": true,
+          "isOffscreen": false,
+          "x": 1053,
+          "y": 480,
+          "width": 23,
+          "height": 29,
+          "selector": "btn-open-0011",
+          "isInvokable": true
+         }
+        ]
+       },
+       {
+        "type": "Button",
+        "name": "Save",
+        "automationId": "SaveButton",
+        "isEnabled": true,
+        "isOffscreen": false,
+        "x": 837,
+        "y": 542,
+        "width": 113,
+        "height": 35,
+        "selector": "SaveButton",
+        "isInvokable": true
+       },
+       {
+        "type": "Text",
+        "name": "Current colour: (unsaved)",
+        "automationId": "StatusLabel",
+        "isEnabled": true,
+        "isOffscreen": false,
+        "x": 687,
+        "y": 647,
+        "width": 198,
+        "height": 26,
+        "selector": "StatusLabel",
+        "isInvokable": false
+       },
+       {
+        "type": "MenuItem",
+        "name": "System",
+        "isEnabled": true,
+        "isOffscreen": false,
+        "x": 0,
+        "y": 0,
+        "width": 10,
+        "height": 10,
+        "selector": "mnu-system-10b4",
+        "isInvokable": true,
+        "expandState": "collapsed",
+        "ancestorPath": [
+         "Window",
+         "TitleBar",
+         "MenuBar"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

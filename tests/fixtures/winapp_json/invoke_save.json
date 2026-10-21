@@ -1,0 +1,11 @@
+{
+ "exit": 0,
+ "stderr": null,
+ "stdout": {
+  "elementId": "btn-savebutton-4af7",
+  "pattern": "InvokePattern",
+  "requestedAction": "auto",
+  "performedAction": "invoke",
+  "hwnd": 394880
+ }
+}

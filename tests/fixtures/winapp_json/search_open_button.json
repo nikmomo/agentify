@@ -1,0 +1,22 @@
+{
+ "exit": 0,
+ "stderr": null,
+ "stdout": {
+  "matchCount": 1,
+  "hasMore": false,
+  "matches": [
+   {
+    "type": "Button",
+    "name": "Open",
+    "isEnabled": true,
+    "isOffscreen": false,
+    "x": 0,
+    "y": 0,
+    "width": 10,
+    "height": 10,
+    "selector": "btn-open-0011",
+    "isInvokable": true
+   }
+  ]
+ }
+}

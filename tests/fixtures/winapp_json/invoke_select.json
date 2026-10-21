@@ -1,0 +1,11 @@
+{
+ "exit": 0,
+ "stderr": null,
+ "stdout": {
+  "elementId": "itm-blue-8123",
+  "pattern": "SelectionItemPattern",
+  "requestedAction": "select",
+  "performedAction": "select",
+  "hwnd": 3080458
+ }
+}

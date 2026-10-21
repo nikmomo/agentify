@@ -1,0 +1,12 @@
+{
+ "exit": 0,
+ "stderr": null,
+ "stdout": {
+  "keys": "text=\\sviasendinput",
+  "via": "send-input",
+  "actionCount": 1,
+  "target": "NotesBox",
+  "hwnd": 394880,
+  "warnings": []
+ }
+}

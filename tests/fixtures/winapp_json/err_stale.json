@@ -1,0 +1,11 @@
+{
+ "exit": 1,
+ "stdout": null,
+ "stderr": {
+  "error": {
+   "code": "internal_error",
+   "message": "Element with slug 'cmb-colourcombo-0000' found by name but RuntimeId hash doesn't match — the UI may have changed. Re-run 'inspect' to get updated selectors.",
+   "details": "InvalidOperationException"
+  }
+ }
+}

@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Agentify runtime data (local, potentially sensitive)
+data/
+*.sqlite
+*.sqlite3
+*.db
+traces/
+screenshots/
+recordings/
+logs/
+*.mp4
+*.gif
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temp / Office lock files
+*.tmp
+~$*
+
+# Built fixture apps (scripts/build_fixture.ps1)
+tests/fixtures/ui_change_fixture/bin/

@@ -1,0 +1,11 @@
+{
+ "exit": 1,
+ "stdout": null,
+ "stderr": {
+  "error": {
+   "code": "element_not_found",
+   "message": "No element found matching 'NoSuchThing'",
+   "selector": "NoSuchThing"
+  }
+ }
+}

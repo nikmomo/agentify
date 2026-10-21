@@ -1,0 +1,23 @@
+{
+ "exit": 0,
+ "stderr": null,
+ "stdout": {
+  "elementId": "lbl-statuslabel-4b8f",
+  "element": {
+   "type": "Text",
+   "name": "Current colour: Red",
+   "automationId": "StatusLabel",
+   "isEnabled": true,
+   "isOffscreen": false,
+   "x": 0,
+   "y": 0,
+   "width": 10,
+   "height": 10,
+   "selector": "lbl-statuslabel-4b8f",
+   "isInvokable": false
+  },
+  "properties": {
+   "Name": "Current colour: Red"
+  }
+ }
+}

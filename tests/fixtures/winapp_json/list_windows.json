@@ -1,0 +1,54 @@
+{
+ "exit": 0,
+ "stderr": null,
+ "stdout": [
+  {
+   "hwnd": 394880,
+   "processId": 10328,
+   "processName": "powershell",
+   "title": "Agentify Fixture vA",
+   "label": "window",
+   "width": 630,
+   "height": 390,
+   "ownerHwnd": 0,
+   "className": "WindowsForms10.Window.8.app.0.247d910_r13_ad1",
+   "isForeground": true
+  },
+  {
+   "hwnd": 131384,
+   "processId": 900,
+   "processName": "StartMenuExperienceHost",
+   "title": "Start",
+   "label": "window",
+   "width": 10,
+   "height": 10,
+   "ownerHwnd": 0,
+   "className": "Windows.UI.Core.CoreWindow",
+   "isForeground": false
+  },
+  {
+   "hwnd": 65906,
+   "processId": 901,
+   "processName": "explorer",
+   "title": "Program Manager",
+   "label": "window",
+   "width": 10,
+   "height": 10,
+   "ownerHwnd": 0,
+   "className": "Progman",
+   "isForeground": false
+  },
+  {
+   "hwnd": 131268,
+   "processId": 901,
+   "processName": "explorer",
+   "title": "",
+   "label": "window",
+   "width": 10,
+   "height": 10,
+   "ownerHwnd": 0,
+   "className": "Shell_TrayWnd",
+   "isForeground": false
+  }
+ ]
+}

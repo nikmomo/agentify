@@ -1,0 +1,67 @@
+[project]
+name = "agentify"
+version = "0.1.0"
+description = "MCP server that learns Windows desktop apps through UI Automation and publishes verified, replayable MCP tools."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = { text = "MIT" }
+authors = [{ name = "Zhen Zhang" }]
+
+dependencies = [
+    "mcp[cli]>=2.3,<3",        # official MCP Python SDK (MCPServer, stdio transport, `mcp dev`)
+    "pydantic>=2.9,<3",        # Workflow IR, skill metadata, MCP payload schemas
+    "pyyaml>=6.0,<7",          # human-readable workflow / skill files
+    "typer>=0.12,<1",          # operator CLI (agentify serve / mcp-config / catalog / ...)
+    "rich>=13.7,<15",          # terminal tables and trees for the CLI
+    "comtypes>=1.4,<2; sys_platform == 'win32'",  # in-process UI Automation fast path
+    "pillow>=10.4,<12",        # screenshots (FakeAdapter)
+    "python-dotenv>=1.0,<2",   # .env loading for Settings
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3,<9",
+    "pytest-asyncio>=0.24,<2",
+    "pytest-timeout>=2.3,<3",
+    "ruff>=0.6,<1",
+    "mypy>=1.11,<2",
+    "types-pyyaml>=6.0,<7",
+]
+
+[project.scripts]
+agentify = "agentify.cli:app"
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agentify"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+timeout = 120
+markers = [
+    "unit: fast tests, no Windows UI, FakeAdapter only",
+    "integration: may invoke WinApp CLI; requires an interactive desktop",
+    "e2e: drives real applications; run manually",
+    "windows: requires Windows 11 with UI Automation",
+]
+addopts = "-ra --strict-markers -m \"not integration and not e2e\""
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+extend-exclude = ["docs", "examples", "*.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src"]
+ignore_missing_imports = true

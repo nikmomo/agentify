@@ -1,0 +1,11 @@
+{
+ "exit": 1,
+ "stdout": null,
+ "stderr": {
+  "error": {
+   "code": "internal_error",
+   "message": "Selector matched 4 elements:\r\n  [0] Text \"Colour\" (687,482 57x26)  -> lbl-393514-4611\r\nUse a slug from 'inspect' to target a specific element.",
+   "details": "UiAmbiguousSelectorException"
+  }
+ }
+}

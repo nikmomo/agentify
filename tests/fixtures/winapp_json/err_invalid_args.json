@@ -1,0 +1,10 @@
+{
+ "exit": 1,
+ "stdout": null,
+ "stderr": {
+  "error": {
+   "code": "invalid_arguments",
+   "message": "Unrecognized command or argument '--type'.; Unrecognized command or argument 'ListItem'."
+  }
+ }
+}

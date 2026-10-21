@@ -1,0 +1,63 @@
+{
+ "exit": 0,
+ "stderr": null,
+ "stdout": {
+  "matchCount": 4,
+  "hasMore": false,
+  "matches": [
+   {
+    "type": "Text",
+    "name": "Colour",
+    "automationId": "393514",
+    "isEnabled": true,
+    "isOffscreen": false,
+    "x": 0,
+    "y": 0,
+    "width": 10,
+    "height": 10,
+    "selector": "393514",
+    "isInvokable": false
+   },
+   {
+    "type": "ComboBox",
+    "name": "Colour",
+    "automationId": "ColourCombo",
+    "isEnabled": true,
+    "isOffscreen": false,
+    "x": 0,
+    "y": 0,
+    "width": 10,
+    "height": 10,
+    "selector": "ColourCombo",
+    "value": "Red",
+    "isInvokable": false
+   },
+   {
+    "type": "Text",
+    "name": "Colour",
+    "isEnabled": true,
+    "isOffscreen": true,
+    "x": 0,
+    "y": 0,
+    "width": 10,
+    "height": 10,
+    "selector": "lbl-colour-0011",
+    "value": "Red",
+    "isInvokable": false
+   },
+   {
+    "type": "Text",
+    "name": "Current colour: Red",
+    "automationId": "StatusLabel",
+    "isEnabled": true,
+    "isOffscreen": false,
+    "x": 0,
+    "y": 0,
+    "width": 10,
+    "height": 10,
+    "selector": "StatusLabel",
+    "isInvokable": false
+   }
+  ]
+ }
+}
