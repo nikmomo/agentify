@@ -14,6 +14,8 @@ def platform_support() -> dict[str, str]:
         if sys.platform == "win32"
         else "requires Windows",
         "fake": "test-only in-memory adapter (not evidence of real application support)",
+        "remote": "the platform adapter of an `agentify adapter-host` on another machine or VM, "
+        "over a shared folder (AGENTIFY_ADAPTER=remote, AGENTIFY_REMOTE_DIR)",
         "browser": "unsupported in MVP",
         "macos": "unsupported in MVP",
         "linux": "unsupported in MVP",
@@ -24,7 +26,17 @@ def create_adapter(
     platform: str | None = None, settings: Settings | None = None
 ) -> PlatformAdapter:
     settings = settings or load_settings()
-    name = platform or ("windows" if sys.platform == "win32" else "unsupported")
+    name = platform or settings.adapter or ("windows" if sys.platform == "win32" else "unsupported")
+    if name == "remote":
+        from agentify.adapters.base.errors import AdapterUnavailable
+        from agentify.adapters.remote import RemoteAdapter
+
+        if settings.remote_dir is None:
+            raise AdapterUnavailable(
+                "AGENTIFY_ADAPTER=remote needs AGENTIFY_REMOTE_DIR (the folder shared with "
+                "`agentify adapter-host`)"
+            )
+        return RemoteAdapter(settings.remote_dir, timeout_ms=settings.remote_timeout_ms)
     if name == "windows":
         from agentify.adapters.windows import WinAppCliAdapter, WinAppCliRunner
 

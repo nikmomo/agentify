@@ -20,6 +20,7 @@ Design notes (all verified on 2026-10-15 unless marked):
 
 from __future__ import annotations
 
+import contextlib
 import time
 from collections.abc import Callable
 from datetime import UTC, datetime
@@ -573,7 +574,9 @@ class WinAppCliAdapter:
         return props.get(name)
 
     def capture_screenshot(self, app: AppHandle, selector: Selector | None = None) -> Path:
-        self.screenshots_dir.mkdir(parents=True, exist_ok=True)
+        # FileExistsError: a mapped folder's stale metadata cache (adapter host in a sandbox).
+        with contextlib.suppress(FileExistsError):
+            self.screenshots_dir.mkdir(parents=True, exist_ok=True)
         stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%S%fZ")
         out = (self.screenshots_dir / f"{app.process_name}-{app.hwnd}-{stamp}.png").resolve()
         args = ["screenshot"]

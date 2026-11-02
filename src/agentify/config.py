@@ -48,6 +48,11 @@ class Settings(BaseModel):
     """Names that ${secret:NAME} references may use (comma-separated); others are refused."""
     secrets_file: Path = Field(Path(".env"), alias="AGENTIFY_SECRETS_FILE")
     """Where secret values are read from when they are not in the environment."""
+    adapter: str = Field("", alias="AGENTIFY_ADAPTER")
+    """Platform adapter: empty = this machine's (windows); "remote" = an adapter host elsewhere."""
+    remote_dir: Path | None = Field(None, alias="AGENTIFY_REMOTE_DIR")
+    """RemoteAdapter: the folder shared with `agentify adapter-host` (this machine's path)."""
+    remote_timeout_ms: int = Field(60_000, alias="AGENTIFY_REMOTE_TIMEOUT_MS", gt=0)
     uia_fast_path: bool = Field(True, alias="AGENTIFY_UIA_FAST_PATH")
     """In-process UI Automation for hot operations; false = WinApp CLI only."""
     # Repair and iteration: implemented, disabled by default.

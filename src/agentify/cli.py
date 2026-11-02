@@ -112,6 +112,47 @@ def serve(
     anyio.run(serve_stdio, app)
 
 
+@app.command("adapter-host")
+def adapter_host(
+    rpc_dir: Annotated[
+        Path,
+        typer.Option("--dir", help="Folder shared with the RemoteAdapter, as THIS machine sees it"),
+    ],
+    allow_launch: Annotated[
+        list[Path] | None,
+        typer.Option(
+            "--allow-launch",
+            help="Folder whose executables launch_app may start (repeatable; Start-menu "
+            "shortcuts are always allowed)",
+        ),
+    ] = None,
+    platform: Annotated[
+        str | None, typer.Option("--platform", help="Local adapter (default: this machine's)")
+    ] = None,
+) -> None:
+    """Execute RemoteAdapter requests from a shared folder with this machine's adapter.
+
+    Run it where the app runs (a VM, Windows Sandbox); point the Agentify server at the same
+    folder with AGENTIFY_ADAPTER=remote and AGENTIFY_REMOTE_DIR. Stops on Ctrl+C.
+    """
+    from agentify.adapters.remote import AdapterHost
+    from agentify.adapters.remote.wire import SHOTS, ensure_dir
+
+    if (platform or "") == "remote":
+        raise typer.BadParameter("an adapter host cannot itself be remote")
+    ensure_dir(rpc_dir)
+    settings = load_settings().model_copy(
+        update={"adapter": "", "screenshots_dir": rpc_dir / SHOTS}
+    )
+    adapter = create_adapter(platform or None, settings=settings)
+    host = AdapterHost(rpc_dir, adapter, allow_launch=allow_launch or [])
+    console.print(f"adapter host ({adapter.platform}) serving {rpc_dir.resolve()}")
+    try:
+        host.serve_forever()
+    except KeyboardInterrupt:
+        host.stop()
+
+
 @app.command("mcp-config")
 def mcp_config(
     app_key: Annotated[
