@@ -176,6 +176,23 @@ useful ones:
 | `AGENTIFY_SECRET_NAMES` / `AGENTIFY_SECRETS_FILE` | empty / `.env` | allowed `${secret:NAME}` references |
 | `AGENTIFY_UIA_FAST_PATH` | `true` | in-process UI Automation for hot operations |
 | `AGENTIFY_AUTO_IMPROVE`, `AGENTIFY_ENABLE_IMPROVE_TOOL` | `false` | self-repair loop (experimental) |
+| `AGENTIFY_ADAPTER` / `AGENTIFY_REMOTE_DIR` | empty / unset | `remote`: drive a desktop elsewhere (below) |
+
+### Driving a VM or Windows Sandbox
+
+The app can live on another desktop (a test VM, Windows Sandbox) while Agentify, its Explorer and
+the skill store stay where your sign-in and network are. Share a folder between the two, then:
+
+```powershell
+# on the machine with the app
+agentify adapter-host --dir C:\shared\agentify --allow-launch C:\app
+# here
+$env:AGENTIFY_ADAPTER = 'remote'; $env:AGENTIFY_REMOTE_DIR = '\\vm\shared\agentify'
+agentify apps; agentify serve
+```
+
+Requests and answers are JSON lines in that folder (no network needed); screenshots land in its
+`shots/`. Details: [`ADAPTER_CONTRACT`](docs/ADAPTER_CONTRACT.md#remoteadapter).
 
 ## Safety
 
@@ -199,7 +216,8 @@ Agentify is an early MVP, built for the YC "Make Something Agents Want" hackatho
 (October 17–18, 2026).
 
 - **Windows only.** Browser, macOS, and Linux adapters are defined as interfaces and raise
-  `UnsupportedPlatformError`.
+  `UnsupportedPlatformError`. The Agentify server itself can run anywhere with `remote`; the
+  adapter host needs Windows.
 - **Supported means tested.** Tested end to end on Windows 11 Notepad, a Tauri/WebView2 desktop
   app, and the WinForms fixture apps in `tests/fixtures/`. Other apps work only as far as they
   expose a usable UI Automation tree.

@@ -883,6 +883,12 @@ class AgentifyApp:
                     secret_env={
                         "AGENTIFY_SECRET_NAMES": self.settings.secret_names,
                         "AGENTIFY_SECRETS_FILE": str(self.settings.secrets_file.resolve()),
+                        # The Explorer's scoped server drives the same (possibly remote) desktop.
+                        "AGENTIFY_ADAPTER": self.settings.adapter,
+                        "AGENTIFY_REMOTE_DIR": str(self.settings.remote_dir.resolve())
+                        if self.settings.remote_dir
+                        else "",
+                        "AGENTIFY_REMOTE_TIMEOUT_MS": str(self.settings.remote_timeout_ms),
                     },
                 )
             except Exception as exc:  # a crashed explorer is a failed iteration, not a crash
@@ -1010,6 +1016,8 @@ class AgentifyApp:
 
     def remember_app(self, info: AppInfo) -> None:
         """Record where a running app's executable is, so a capability can open it later."""
+        if getattr(self.adapter, "remote", False):
+            return  # its pid belongs to another machine
         from agentify.adapters.windows.win32 import process_image_path
 
         path = process_image_path(getattr(info, "pid", 0) or 0)
@@ -1042,6 +1050,15 @@ class AgentifyApp:
         started = time.perf_counter()
         found = running()
         launched = None
+        remote_launch = getattr(self.adapter, "launch_app", None)
+        if found is None and remote_launch is not None:
+            # The app lives where the adapter does; that machine opens it.
+            launched = str(remote_launch(app).get("launched") or app)
+            while found is None and time.perf_counter() - started < timeout_s:
+                time.sleep(0.5)
+                found = running()
+            if found is None:
+                raise NotFound(f"launched {launched!r} but no window appeared in {timeout_s:.0f} s")
         if found is None:
             f = self._apps_file()
             known = json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}

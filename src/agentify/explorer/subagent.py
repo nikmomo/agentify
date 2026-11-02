@@ -161,7 +161,13 @@ def run_explorer(
     }
     if allowed_windows:
         server_env["AGENTIFY_ALLOWED_WINDOWS"] = allowed_windows
-    for key in ("AGENTIFY_SECRET_NAMES", "AGENTIFY_SECRETS_FILE"):
+    for key in (
+        "AGENTIFY_SECRET_NAMES",
+        "AGENTIFY_SECRETS_FILE",
+        "AGENTIFY_ADAPTER",
+        "AGENTIFY_REMOTE_DIR",
+        "AGENTIFY_REMOTE_TIMEOUT_MS",
+    ):
         if secret_env.get(key):
             server_env[key] = secret_env[key]
     cmd = agentify_command()

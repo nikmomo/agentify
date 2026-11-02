@@ -11,6 +11,7 @@ Status: **implemented** (2026-10-15). The code is the source of truth; this docu
 | Keyboard deny list | `src/agentify/adapters/base/keys.py` |
 | Windows (WinApp CLI 0.7.1) | `src/agentify/adapters/windows/` |
 | Fake (unit tests only) | `src/agentify/adapters/fake/` |
+| Remote (an adapter on another machine or VM, over a shared folder) | `src/agentify/adapters/remote/` |
 | Browser / macOS / Linux | `src/agentify/adapters/unsupported.py` (raise `UnsupportedPlatformError`) |
 | Construction | `src/agentify/adapters/registry.py` (`create_adapter`, `platform_support`) |
 
@@ -138,3 +139,64 @@ All commands are scoped with `-w <hwnd>` and use `--json`.
 An in-memory desktop (`FakeDesktop`) of `FakeApp`s built from `FakeNode`s: buttons with handlers, ComboBoxes whose items appear only while expanded, ListItem / RadioButton selection, Edit / Document values, and dialogs as extra windows. It uses the same `strategies` / `filter_matches` / `pick` and the same keyboard deny list as the Windows adapter. Slugs embed a per-launch hash, and `FakeDesktop.relaunch()` changes them. Scenarios: `colour_fixture_app(version="A"|"B")` mirrors the real fixture, and `simple_editor_app()` is a generic editor.
 
 It is never cited as evidence of Windows support.
+
+## RemoteAdapter
+
+Runs the platform adapter where the app runs (a VM, Windows Sandbox, another desktop) while the
+rest of Agentify (MCP server, Explorer sub-agent, skill store) stays where the model's sign-in and
+network are. Nothing about skills, workflows or learning changes: `RemoteAdapter` implements the
+same protocol and forwards every call.
+
+```
+ host:  agentify serve (AGENTIFY_ADAPTER=remote, AGENTIFY_REMOTE_DIR=<dir>)
+          RemoteAdapter ── appends requests ──►  <dir>/requests.jsonl
+                        ◄── reads responses ───  <dir>/responses.jsonl
+ guest: agentify adapter-host --dir <same dir as the guest sees it>
+          WinAppCliAdapter (the real one) executes each request in order
+```
+
+**Transport.** A folder both sides can read and write (a Windows Sandbox mapped folder, an SMB
+share). Files, not a socket, because test VMs often have networking off. JSON lines:
+
+| File | Writer | Content |
+|---|---|---|
+| `requests.jsonl` | clients | `{"id": "<uuid>", "method": "...", "params": {...}, "protocol": 1}` |
+| `responses.jsonl` | host | `{"id": "...", "ok": true, "result": ...}` or `{"id": "...", "ok": false, "error": {"code", "message", "details"}}` |
+| `host.json` | host | heartbeat `{pid, platform, protocol, started, beat}`, rewritten every 2 s |
+| `shots/` | host | screenshots |
+
+Each side reads its input file through one long-lived handle (re-opening a file on a mapped
+folder per poll hits its not-found cache and adds seconds). The host executes requests one at a
+time in arrival order, so several clients (the learning server and its Explorer's scoped server)
+can share one host; each client keeps only the responses to its own ids.
+
+**Methods.** The protocol methods plus `ensure_visible(app, timeout_s)` and `launch_app(app)`
+(the host opens a Start-menu shortcut by name, or an absolute `.exe` path under a folder the host
+was started with `--allow-launch`; anything else is `permission_denied`). The learning server's
+`open_app` uses `launch_app` instead of launching on its own machine, and does not record remote
+executables in `apps.json` (their pids belong to the other machine). `ping` returns the host's
+platform, protocol version and launch folders.
+
+**Running it.** Guest: `agentify adapter-host --dir <folder> [--allow-launch <dir>]...`
+(screenshots go to `<folder>/shots`; Ctrl+C stops it and removes the heartbeat). Host:
+`AGENTIFY_ADAPTER=remote`, `AGENTIFY_REMOTE_DIR=<the same folder as this machine sees it>`, then
+any CLI command or `agentify serve`; the Explorer's scoped server inherits both. One host per
+desktop: OS-level input (SendInput) is session-wide, and one host executing requests in order is
+what serializes it across clients.
+
+**Values.** Pydantic models travel as `model_dump(mode="json")` and are validated on arrival.
+Paths under the shared folder (`capture_screenshot`, `ActionResult.screenshot_path`) travel
+relative to it and are resolved against the client's own view of the folder.
+
+**Errors.** The host sends `AdapterError.to_dict()`; the client raises the subclass with that
+`code` (unknown codes: `AdapterError`). Anything else the host raises arrives as `adapter_error`.
+No host heartbeat in 10 s: `AdapterUnavailable`. No answer in time: `AdapterTimeout`, with
+`details.possibly_performed` true for `perform` (the host may still execute it; the runtime does
+not retry non-idempotent actions).
+
+**Bounds.** A call waits `AGENTIFY_REMOTE_TIMEOUT_MS` (default 60 000), or an action's own
+`timeout_ms` plus 30 s when that is longer.
+
+**Safety.** The host enforces the same keyboard deny list and process scope as the local adapter
+(it is the local adapter). The shared folder is a trust boundary: anyone who can write
+`requests.jsonl` can drive the guest desktop, so share it only with the host that runs Agentify.
